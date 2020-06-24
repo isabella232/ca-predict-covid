@@ -26,9 +26,9 @@ urlFileExist <- function(url){
 #### Import JHU ####
 
 get_awsJHU <- function(data_path,fname) {
-  
+
   aws_path <- paste0(data_path,"awsJHU/",fname)
-  df <- read.csv(aws_path, stringsAsFactors = FALSE) 
+  df <- read_csv(aws_path)
   df$intervention <- str_remove(fname,".csv")
   df <- df %>% rename(date = time,
                       hosp_occup_q50 = hosp_occup_median,
@@ -43,9 +43,9 @@ get_awsJHU <- function(data_path,fname) {
 }
 
 get_awsJHU_c <- function(data_path, fname) {
-  
+
   aws_path <- paste0(data_path,"awsJHU/", fname)
-  df <- read.csv(aws_path, stringsAsFactors = FALSE) 
+  df <- read_csv(aws_path)
   df$intervention <- str_remove(fname,".county.csv")
   df <- df %>% rename(date = time,
                       hosp_occup_q50 = hosp_occup_median,
@@ -58,15 +58,15 @@ get_awsJHU_c <- function(data_path, fname) {
   df <- df %>% rename(fips = geoid)
   df$date <- as.Date(df$date)
   return(df)
-  
+
 }
 
 #### Import CAN ####
 
 get_awsCAN <- function(data_path) {
-  
-  awsCAN <- read.csv( paste0(data_path,"awsCAN/CAN.csv"), stringsAsFactors = FALSE) 
-  
+
+  awsCAN <- read_csv( paste0(data_path,"awsCAN/CAN.csv"))
+
   awsCAN <- merge(awsCAN, counties) %>% dplyr::rename(intervention = scenarioNum)
   awsCAN$intervention <- as.character(awsCAN$intervention)
   awsCAN <- awsCAN %>% mutate(intervention=recode(intervention,
@@ -76,7 +76,7 @@ get_awsCAN <- function(data_path) {
   awsCAN$date <- as.Date(awsCAN$date,format = "%m/%d/%y")
   #awsCAN <- as_tibble(awsCAN)
   return(awsCAN)
-  
+
 }
 
 get_ucla_cnty_pred <- function(url) {
