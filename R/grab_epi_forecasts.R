@@ -3,7 +3,7 @@ grab_epi_forecasts <- function(State = "California"){
   url <-"https://github.com/epiforecasts/covid-regional/raw/ada5b4ec0a5e786712c630708aaf85de663e2dde/united-states/regional-summary/rt.csv"
   
   if ( as.character(url_file_exists(url)[1]) == "TRUE" ) {
-    epi_forecast <- read.csv(url, stringsAsFactors = FALSE) %>% filter(region == State) %>% mutate(date = as.Date(date))
+    epi_forecast <- readr::read_csv(url) %>% filter(region == State) %>% mutate(date = as.Date(date))
     
     
     

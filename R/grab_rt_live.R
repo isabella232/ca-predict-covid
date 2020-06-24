@@ -6,7 +6,7 @@ grab_rt_live <- function(State = "California"){
   url <- "https://d14wlfuexuxgcm.cloudfront.net/covid/rt.csv"
  
   if ( as.character(url_file_exists(url)[1]) == "TRUE" ) {
-    rt_live <- read.csv("https://d14wlfuexuxgcm.cloudfront.net/covid/rt.csv") %>% 
+    rt_live <- readr::read_csv("https://d14wlfuexuxgcm.cloudfront.net/covid/rt.csv") %>% 
       filter(region == ST) %>% 
       mutate(date = as.Date(as.character(date)),
              region = as.character(region))

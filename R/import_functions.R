@@ -3,7 +3,7 @@
 #### Import Actuals ####
 
 read_hhs_covid <- function(url){
-  covid <- read.csv("https://data.chhs.ca.gov/dataset/6882c390-b2d7-4b9a-aefa-2068cee63e47/resource/6cd8d424-dfaa-4bdd-9410-a3d656e1176e/download/covid19data.csv")
+  covid <- readr::read_csv("https://data.chhs.ca.gov/dataset/6882c390-b2d7-4b9a-aefa-2068cee63e47/resource/6cd8d424-dfaa-4bdd-9410-a3d656e1176e/download/covid19data.csv")
   covid <- covid[,1:8]
   covid[,1:2] <- lapply(covid[,1:2], as.character)
   covid$Most.Recent.Date <- mdy(covid$Most.Recent.Date)
@@ -28,7 +28,7 @@ urlFileExist <- function(url){
 get_awsJHU <- function(data_path,fname) {
   
   aws_path <- paste0(data_path,"awsJHU/",fname)
-  df <- read.csv(aws_path, stringsAsFactors = FALSE) 
+  df <- readr::read_csv(aws_path) 
   df$intervention <- str_remove(fname,".csv")
   df <- df %>% rename(date = time,
                       hosp_occup_q50 = hosp_occup_median,
@@ -45,7 +45,7 @@ get_awsJHU <- function(data_path,fname) {
 get_awsJHU_c <- function(data_path, fname) {
   
   aws_path <- paste0(data_path,"awsJHU/", fname)
-  df <- read.csv(aws_path, stringsAsFactors = FALSE) 
+  df <- readr::read_csv(aws_path) 
   df$intervention <- str_remove(fname,".county.csv")
   df <- df %>% rename(date = time,
                       hosp_occup_q50 = hosp_occup_median,
@@ -65,7 +65,7 @@ get_awsJHU_c <- function(data_path, fname) {
 
 get_awsCAN <- function(data_path) {
   
-  awsCAN <- read.csv( paste0(data_path,"awsCAN/CAN.csv"), stringsAsFactors = FALSE) 
+  awsCAN <- readr::read_csv( paste0(data_path,"awsCAN/CAN.csv")) 
   
   awsCAN <- merge(awsCAN, counties) %>% dplyr::rename(intervention = scenarioNum)
   awsCAN$intervention <- as.character(awsCAN$intervention)
