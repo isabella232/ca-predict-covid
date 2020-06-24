@@ -1,5 +1,6 @@
 memoize <- function(fn, cache = memoryCache()) {
-  force(fn)
+  # Strip source refs so they don't cause spurious differences in hashing.
+  fn <- removeSource(fn)
 
   # Hash the function itself. This will be used later when hashing the
   # arguments. This allows multiple functions that take the same args to use the
