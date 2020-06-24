@@ -30,8 +30,11 @@ source("R/import_functions.R")
 
 # Set up caching
 source("R/memoize.R")
-# Configure memoization using a shared disk cache
-diskcache <- diskCache("./cache", max_size = 100 * 1024 * 1024)
+# Configure memoization using a shared disk cache. The lifetime of this cache
+# directory is the life of the R process; when the R process exits, it will
+# be removed.
+cache_dir <- file.path(tempdir(), "predict_covid_cache")
+diskcache <- diskCache(cache_dir, max_size = 100 * 1024 * 1024)
 memoize2 <- function(fn) {
   memoize(fn, diskcache)
 }
