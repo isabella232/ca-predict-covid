@@ -23,13 +23,25 @@ library(plotly)
 library(scales)
 library(jsonlite)
 library(sf)
+library(readr)
 
 source("R/import_functions.R")
 
+
+
 #Support Functions
+source("R/memoize.R")
 source("R/add_pop.R")
 source("R/to_time_series.R")
 source("R/model_output_lists.R")
+
+
+# Configure memoization using a shared disk cache
+diskcache <- diskCache("./cache", max_size = 100 * 1024 * 1024)
+memoize2 <- function(fn) {
+  memoize(fn, diskcache)
+}
+
 
 # Setting up all the paths
 
