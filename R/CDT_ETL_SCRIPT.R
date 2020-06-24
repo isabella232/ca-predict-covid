@@ -145,7 +145,7 @@ IHME$date <- as.Date(IHME$date)
 LANL <- readr::read_csv("https://covid-19.bsvgateway.org/forecast/us/files/2020-05-03/confirmed/2020-05-03_confirmed_quantiles_us_website.csv") %>%
             filter(simple_state == "california") %>% select(dates,q.10,q.50,q.90, truth_confirmed)
 
-LANL_d <- readr::read_csv"https://covid-19.bsvgateway.org/forecast/us/files/2020-05-03/deaths/2020-05-03_deaths_quantiles_us_website.csv") %>%
+LANL_d <- readr::read_csv("https://covid-19.bsvgateway.org/forecast/us/files/2020-05-03/deaths/2020-05-03_deaths_quantiles_us_website.csv") %>%
             filter(simple_state == "california") %>% select(dates,q.10,q.50,q.90, truth_confirmed)
 
 
