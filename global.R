@@ -41,6 +41,8 @@ diskcache <- diskCache("./cache", max_size = 100 * 1024 * 1024)
 memoize2 <- function(fn) {
   memoize(fn, diskcache)
 }
+# Tell Shiny to also use this cache for renderCachedPlot
+shinyOptions(cache = diskcache)
 
 
 # Setting up all the paths

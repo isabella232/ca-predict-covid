@@ -2013,7 +2013,21 @@ server <- function(input, output, session) {
 
 #### Static Daily Estimates ####
     
-    output$physical.graph.static <- renderPlot({
+    output$physical.graph.static <- renderCachedPlot(
+      cacheKeyExpr = list(
+        input$physical.graph_date_window,
+        input$actuals,
+        input$select_COVID,
+        input$include_JHU_UKKC,
+        input$physical.mmd,
+        input$physical.iqr,
+        input$county_ts,
+        input$IHME.iqr,
+        input$RAND.iqr,
+        input$selected_crosswalk,
+        input$drop_hline
+      ),
+      {
         
         df <- state.model.xts()[ paste0( as.Date(input$physical.graph_date_window[[1]]),"/",as.Date(input$physical.graph_date_window[[2]]) ) ]
         #dtrange <- paste(as.character(input$dateRange_ts), collapse = "/")
@@ -2200,8 +2214,8 @@ server <- function(input, output, session) {
             ) 
         
         return(p)
-        
-    })
+      }
+    )
     
     
     ## download Static figure data 
