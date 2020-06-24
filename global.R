@@ -44,6 +44,10 @@ shinyOptions(cache = diskcache)
 source("R/add_pop.R")
 source("R/to_time_series.R")
 source("R/model_output_lists.R")
+source("R/plotly.R")
+source("R/proj_plots.R")
+
+
 # Setting up all the paths
 
 # PATH CONSTANTS
