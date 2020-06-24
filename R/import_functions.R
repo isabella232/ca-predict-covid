@@ -26,7 +26,7 @@ urlFileExist <- function(url){
 #### Import JHU ####
 
 get_awsJHU <- function(data_path,fname) {
-  
+
   aws_path <- paste0(data_path,"awsJHU/",fname)
   df <- readr::read_csv(aws_path) 
   df$intervention <- str_remove(fname,".csv")
@@ -43,7 +43,7 @@ get_awsJHU <- function(data_path,fname) {
 }
 
 get_awsJHU_c <- function(data_path, fname) {
-  
+
   aws_path <- paste0(data_path,"awsJHU/", fname)
   df <- readr::read_csv(aws_path) 
   df$intervention <- str_remove(fname,".county.csv")
@@ -58,7 +58,7 @@ get_awsJHU_c <- function(data_path, fname) {
   df <- df %>% rename(fips = geoid)
   df$date <- as.Date(df$date)
   return(df)
-  
+
 }
 
 #### Import CAN ####
@@ -76,7 +76,7 @@ get_awsCAN <- function(data_path) {
   awsCAN$date <- as.Date(awsCAN$date,format = "%m/%d/%y")
   #awsCAN <- as_tibble(awsCAN)
   return(awsCAN)
-  
+
 }
 
 get_ucla_cnty_pred <- function(url) {
