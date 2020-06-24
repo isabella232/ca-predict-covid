@@ -4,7 +4,7 @@ grab_mit <- function(State = "California"){
   
   if (as.character(url_file_exists(url)[1]) == "TRUE" ) {
     
-    mit <- read.csv(url, stringsAsFactors = FALSE) %>% filter(Province == State)
+    mit <- readr::read_csv(url) %>% filter(Province == State)
     mit$date <- as.Date(mit$Day)
 
     

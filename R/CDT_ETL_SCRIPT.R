@@ -37,7 +37,7 @@ fipslist[1] <- NULL
 url <- "https://data.chhs.ca.gov/dataset/6882c390-b2d7-4b9a-aefa-2068cee63e47/resource/6cd8d424-dfaa-4bdd-9410-a3d656e1176e/download/covid19data.csv"
 
 read_hhs_covid <- function(url){
-  covid <- read.csv("https://data.chhs.ca.gov/dataset/6882c390-b2d7-4b9a-aefa-2068cee63e47/resource/6cd8d424-dfaa-4bdd-9410-a3d656e1176e/download/covid19data.csv")
+  covid <- readr::read_csv("https://data.chhs.ca.gov/dataset/6882c390-b2d7-4b9a-aefa-2068cee63e47/resource/6cd8d424-dfaa-4bdd-9410-a3d656e1176e/download/covid19data.csv")
   covid <- covid[,1:8]
   covid[,1:2] <- lapply(covid[,1:2], as.character)
   covid$Most.Recent.Date <- mdy(covid$Most.Recent.Date)
@@ -67,7 +67,7 @@ if ( as.character(urlFileExist(url)[1]) == "TRUE" ) {
 
 ### Rt.live ####
 
-rt_live <- read.csv("https://d14wlfuexuxgcm.cloudfront.net/covid/rt.csv") %>% 
+rt_live <- readr::read_csv("https://d14wlfuexuxgcm.cloudfront.net/covid/rt.csv") %>% 
               filter(region == "CA") %>% 
               mutate(date = as.Date(as.character(date)),
                      region = as.character(region))
@@ -100,7 +100,7 @@ fwrite(full_can_table, "../data/spatial/can_full_table.csv")
 ### Epiforecasts ###
 
 epifc_url <-"https://github.com/epiforecasts/covid-regional/raw/ada5b4ec0a5e786712c630708aaf85de663e2dde/united-states/regional-summary/rt.csv"
-epi_forecast <- read.csv(epifc_url, stringsAsFactors = FALSE) %>% 
+epi_forecast <- readr::read_csv(epifc_url) %>% 
                   filter(region == "California") %>% 
                   mutate(date = as.Date(date))
 
@@ -142,10 +142,10 @@ IHME$date <- as.Date(IHME$date)
 ### LANL 
 
 ## Cumualative Cases - Date will vary...so far, do not know how often these are updated.
-LANL <- read.csv("https://covid-19.bsvgateway.org/forecast/us/files/2020-05-03/confirmed/2020-05-03_confirmed_quantiles_us_website.csv") %>%
+LANL <- readr::read_csv("https://covid-19.bsvgateway.org/forecast/us/files/2020-05-03/confirmed/2020-05-03_confirmed_quantiles_us_website.csv") %>%
             filter(simple_state == "california") %>% select(dates,q.10,q.50,q.90, truth_confirmed)
 
-LANL_d <- read.csv("https://covid-19.bsvgateway.org/forecast/us/files/2020-05-03/deaths/2020-05-03_deaths_quantiles_us_website.csv") %>%
+LANL_d <- readr::read_csv"https://covid-19.bsvgateway.org/forecast/us/files/2020-05-03/deaths/2020-05-03_deaths_quantiles_us_website.csv") %>%
             filter(simple_state == "california") %>% select(dates,q.10,q.50,q.90, truth_confirmed)
 
 
@@ -159,7 +159,7 @@ mobs$date <- as.Date(mobs$date)
 
 ### MIT ###
 #https://www.covidanalytics.io/projections
-mit <- read.csv("https://www.covidanalytics.io/projections/covid_analytics_projections.csv", stringsAsFactors = FALSE) %>% 
+mit <- readr::read_csv("https://www.covidanalytics.io/projections/covid_analytics_projections.csv") %>% 
           filter(Province == "California")
 mit$date <- as.Date(mit$Day)
 
@@ -176,15 +176,15 @@ rm(ucla)
 ### youyanggu ### 
 
 # https://github.com/youyanggu/covid19_projections/raw/master/projections/combined/latest_us.csv
-yu <- read.csv("https://github.com/youyanggu/covid19_projections/raw/master/projections/combined/latest_us.csv", stringsAsFactors = FALSE) %>% 
+yu <- readr::read_csv("https://github.com/youyanggu/covid19_projections/raw/master/projections/combined/latest_us.csv") %>% 
           filter(region == "CA")   
 yu$date <- as.Date(yu$date, format ="%Y-%m-%d")
 
 
 #### ICL Imperial College London ####
 
-icl_model <- read.csv("https://mrc-ide.github.io/covid19usa/downloads/data-model-estimates.csv", stringsAsFactors = FALSE) %>% filter(state == "CA")
+icl_model <- readr::read_csv("https://mrc-ide.github.io/covid19usa/downloads/data-model-estimates.csv") %>% filter(state == "CA")
 icl_model$date <- as.Date(icl_model$date)
-icl <- read.csv("https://mrc-ide.github.io/covid19usa/downloads/time-varying-reproduction-number-scenarios.csv", stringsAsFactors = FALSE) %>% filter(state == "CA")
+icl <- readr::read_csv("https://mrc-ide.github.io/covid19usa/downloads/time-varying-reproduction-number-scenarios.csv") %>% filter(state == "CA")
 icl$date <- as.Date(icl$date)
 

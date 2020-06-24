@@ -4,7 +4,7 @@ grab_icl_rt <- function(ST = "CA", State = "California"){
   
   if (as.character(url_file_exists(url)[1]) == "TRUE" ) {
     
-    icl_rt <- read.csv(url, stringsAsFactors = FALSE) %>% filter(state == ST)
+    icl_rt <- readr::read_csv(url) %>% filter(state == ST)
     icl_rt$date <- as.Date(icl_rt$date)
     
     msg <- paste0("Successfully download data from Imperial College London for ", State, " on ", Sys.Date())

@@ -42,7 +42,7 @@ server <- function(input, output, session) {
             if (is.null(inFile)) {
                df <- data.frame(Result = c("No data has been uploaded"))
             } else {
-              df <- tryCatch({ read.csv(inFile$datapath, header = T, sep = ",", stringsAsFactors = F) },
+              df <- tryCatch({ readr::read_csv(inFile$datapath) },
                                error = function(e) { sendSweetAlert(session, title = "Whoa!", text = "The uploaded file does not look like the template.", type = "error") },
                                finally = { data.frame(Result = c("No data has been uploaded"))  }                             )
             }

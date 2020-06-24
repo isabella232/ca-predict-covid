@@ -3,7 +3,7 @@ grab_ygg_state  <- function(State = "California"){
   
   if (as.character(url_file_exists(url)[1]) == "TRUE" ) {
     
-    yu <- read.csv(url, stringsAsFactors = FALSE) %>% 
+    yu <- readr::read_csv(url) %>% 
       filter(region == get_state_abbrv(State))   
     yu$date <- as.Date(yu$date, format ="%Y-%m-%d")
    

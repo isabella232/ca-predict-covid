@@ -1,7 +1,7 @@
 
 read_hhs_covid <- function(url){
 #https://data.chhs.ca.gov/dataset/6882c390-b2d7-4b9a-aefa-2068cee63e47/resource/6cd8d424-dfaa-4bdd-9410-a3d656e1176e/download/covid19data.csv
-  covid <- read.csv(url)
+  covid <- readr::read_csv(url)
   covid <- covid[,1:8]
   covid[,1:2] <- lapply(covid[,1:2], as.character)
   covid$Most.Recent.Date <- lubridate::mdy(covid$Most.Recent.Date)

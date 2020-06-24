@@ -6,9 +6,9 @@ library(DT)
 library(shiny)
 library(readr)
 library(stringr)
-library(pool)
-library(DBI)
-library(odbc)
+#library(pool)
+#library(DBI)
+#library(odbc)
 library(ggplot2)
 library(dplyr)
 library(tidyr)
@@ -66,13 +66,13 @@ names(fipslist) <- counties[[1]]
 fipslist[1] <- NULL
 
 #### Read in population numbers
-cnty.pop <- read.csv(paste0("data/county_pop.csv"), stringsAsFactors = FALSE)
+cnty.pop <- readr::read_csv(paste0("data/county_pop.csv"))
 cnty.pop[,2] <- str_replace_all(cnty.pop[,2],",","")
 cnty.pop[2] <- lapply(cnty.pop[2], as.numeric)
 cnty.pop <- as_tibble(cnty.pop)
 
 #### County Bed Data ###
-cnty.beds <- read.csv( paste0(data_path,"cha_survey/hospital_beds.csv") ) 
+cnty.beds <- readr::read_csv( paste0(data_path,"cha_survey/hospital_beds.csv") ) 
 
 #### Actuals ####
 covid <- readRDS(paste0(data_path, "covid.rds"))
