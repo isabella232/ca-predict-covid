@@ -1,0 +1,59 @@
+COUNTY,FIPS,CAN_R0
+Alameda,1,TRUE
+Alpine,3,FALSE
+Amador,5,FALSE
+Butte,7,FALSE
+Calaveras,9,FALSE
+Colusa,11,FALSE
+Contra Costa,13,TRUE
+Del Norte,15,FALSE
+El Dorado,17,FALSE
+Fresno,19,TRUE
+Glenn,21,FALSE
+Humboldt,23,FALSE
+Imperial,25,TRUE
+Inyo,27,FALSE
+Kern,29,TRUE
+Kings,31,TRUE
+Lake,33,FALSE
+Lassen,35,FALSE
+Los Angeles,37,TRUE
+Madera,39,FALSE
+Marin,41,TRUE
+Mariposa,43,FALSE
+Mendocino,45,FALSE
+Merced,47,TRUE
+Modoc,49,FALSE
+Mono,51,FALSE
+Monterey,53,TRUE
+Napa,55,FALSE
+Nevada,57,FALSE
+Orange,59,TRUE
+Placer,61,FALSE
+Plumas,63,FALSE
+Riverside,65,TRUE
+Sacramento,67,TRUE
+San Benito,69,FALSE
+San Bernardino,71,TRUE
+San Diego,73,TRUE
+San Francisco,75,TRUE
+San Joaquin,77,TRUE
+San Luis Obispo,79,TRUE
+San Mateo,81,TRUE
+Santa Barbara,83,TRUE
+Santa Clara,85,TRUE
+Santa Cruz,87,FALSE
+Shasta,89,FALSE
+Sierra,91,FALSE
+Siskiyou,93,FALSE
+Solano,95,FALSE
+Sonoma,97,TRUE
+Stanislaus,99,TRUE
+Sutter,101,FALSE
+Tehama,103,FALSE
+Trinity,105,FALSE
+Tulare,107,TRUE
+Tuolumne,109,FALSE
+Ventura,111,TRUE
+Yolo,113,TRUE
+Yuba,115,FALSE

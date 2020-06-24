@@ -1,0 +1,93 @@
+---
+title: "grab_can_county_r0"
+author: "vargo"
+date: "5/17/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(dplyr)
+library(data.table)
+library(ggplot2)
+
+counties <- fread(paste0("../data/county_key.csv")) %>% as.data.frame()
+
+#counties <- fread("data/county_key.csv"))
+regions <- left_join(counties, fread("../data/caloes_county_region_xwalk.csv"), by = c("county" = "COUNTY")) %>% rename(cal0es_region = REGION)
+regions <- left_join(regions, fread("../data/economic_county_region_xwalk.csv"), by = c("county" = "COUNTY")) %>% rename(economic_region = REGION)
+# regions <- left_join(regions, read_csv("data/mutual_aid_county_region_xwalk.csv"), by = c("county" = "COUNTY")) %>% rename(mutual_region = REGION)
+regions <- left_join(regions, fread("../data/can_r0_xwalk.csv"), by = c("county" = "COUNTY")) %>% rename(can_has_data = CAN_R0)
+
+cnty.list <- c(unique(as.character(counties$county)))
+
+#Create a labeled fips list for counties
+
+fipslist <- as.list(as.character(counties[[2]]))
+names(fipslist) <- counties[[1]]
+fipslist[1] <- NULL
+
+#Create a labeled fips list for CAN counties
+```
+
+```{r}
+print(paste0("run on ",Sys.Date()))
+
+get_can_cnty <- function(fips) {
+ 
+  url <- paste0("https://data.covidactnow.org/latest/us/counties/",paste0("0",fips),".OBSERVED_INTERVENTION.timeseries.json")
+  Sys.sleep(2)
+  valid <- RCurl::url.exists(url)
+  print(paste0(fips,": ",valid))
+  if(valid){
+    cnty <- jsonlite::fromJSON(url)$timeseries %>% as.data.frame() %>% mutate(date = as.Date(date))
+    cnty <- mutate(cnty, fips = fips)
+    return(cnty)
+  }
+  
+}
+
+```
+
+```{r}
+
+
+out <- rbindlist(lapply(fipslist, function(x) get_can_cnty(x)))
+full_can_table <- mutate(out, fips = as.integer(fips)) %>% merge(regions, all.x = TRUE)
+
+full_can_table
+
+
+
+fwrite(full_can_table, "../data/spatial/can_full_table.csv")
+
+```
+
+```{r}
+
+plot_data <-  data.table(full_can_table) %>%
+        .[, max_date := max(date, na.rm = T), by = .(county)] %>%
+        .[date > Sys.Date()-7, .(Rt = mean(RtIndicator, na.rm = T),
+                                 LL = mean(RtIndicator - RtIndicatorCI90, na.rm=T),
+                                 UL = mean(RtIndicator + RtIndicatorCI90, na.rm=T)), by = .(county)] %>% na.omit()
+
+ggplot(plot_data) + 
+  geom_point(aes(x = reorder(county, Rt), y = Rt)) +
+  geom_linerange(aes(x = reorder(county, Rt), ymax = UL, ymin = LL), color = "blue") +
+  geom_hline(yintercept = 1, linetype ="dashed") + 
+  coord_flip() +ggthemes::theme_few()
+
+
+```
+
+
+```{r}
+
+fwrite(plot_data, "../data/spatial/plot_data.csv")
+
+```
+
+
+
+
